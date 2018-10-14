@@ -1,0 +1,2 @@
+class FlightTicket < ApplicationRecord
+end
