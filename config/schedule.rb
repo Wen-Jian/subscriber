@@ -6,7 +6,7 @@
 # Example:
 #
 # set :output, "../log/cron_log.log"
-set :environment, :development
+set :environment, :production
 #
 # every 2.hours do
 #   command "/usr/bin/some_great_command"
@@ -14,7 +14,7 @@ set :environment, :development
 #   rake "some:great:rake:task"
 # end
 #
-every 1.minutes do
+every 1.day, at: '10:00' do
   runner "DataFetchService::DataFetchService.execute"
 end
 
