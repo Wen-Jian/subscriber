@@ -1,12 +1,13 @@
 module DataFetchService
     include Selenium
     class DataFetchService
-        def initialize(period)
-            @period = period
-        end
+        # def initialize(period)
+        #     @period = period
+        # end
 
-        def execute
+        def self.execute
             count = 0
+            @period = 180
             options = Selenium::WebDriver::Chrome::Options.new
             options.add_argument('--headless')
             driver = Selenium::WebDriver.for :chrome, options: options
