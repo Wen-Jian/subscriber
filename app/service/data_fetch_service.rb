@@ -35,7 +35,7 @@ module DataFetchService
                 content = nil
                 while content.blank?
                     serch_btn = driver.find_elements(:xpath, '//*[@id="app"]/div/div[1]/div[1]/header/div/div/div[2]/div[6]/button')[0]
-                    puts serch_btn.text
+                    puts serch_btn.text.encode('UTF-8')
                     serch_btn.click
                     sleep(2)
                     # press search button
@@ -67,7 +67,7 @@ module DataFetchService
 
 
                 # find the information of company
-                flight_company = driver.find_elements(:xpath, '//*[@id="app"]/div/div[3]/div/div[2]/div/div[3]/div[3]/div[1]/div/div[1]/span')[0].text
+                flight_company = driver.find_elements(:xpath, '//*[@id="app"]/div/div[3]/div/div[2]/div/div[3]/div[3]/div[1]/div/div[1]/span')[0].text.encode('UTF-8')
     
                 # find flight information
                 price = (driver.find_elements(:xpath, '//*[@id="app"]/div/div[3]/div/div[2]/div/div[3]/div[3]/div[1]/div/div[2]/span')[0].text)
