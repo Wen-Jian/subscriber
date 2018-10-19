@@ -1,0 +1,21 @@
+<h1>台灣->東京 便宜機票</h1>
+<h3>機票時間區間</h3>
+<h3>起</h3>
+<h3><%= @date_from %></h3>  
+<h3>迄</h3>
+<h3><%= @date_end %></h3> 
+<h4>航班資訊</h4>
+<table>
+  <tr>
+    <th>航空公司</th>
+    <th>價格</th>
+    <th>航班時間</th>
+  </tr>
+  <% @tickets.each do |t| %>
+    <tr>
+      <th><%= t.flight_company %></th>
+      <th><%= t.price %></th>
+      <th><%= t.flight_date %></th>
+  </tr>
+  <% end %>
+</table>
