@@ -1,7 +1,7 @@
 module TicketNotificationService
     class TicketNotificationService
         def self.price_check
-            @tickets = FlightTicket.where("price < 5000").order(flight_date: :asc)
+            @tickets = FlightTicket.where("price < 3000").where(destination: 'Tokyo').order(flight_date: :asc)
             if @tickets.present?
                 date_from = @tickets.first.flight_date
                 date_end = @tickets.first.flight_date
@@ -29,7 +29,6 @@ module TicketNotificationService
                 '<h4>航班資訊</h4>'\
                 '<table>'\
                 '<tr>'\
-                    '<th>航空公司</th>'\
                     '<th>價格</th>'\
                     '<th>航班時間</th>'\
                 '</tr>'\
@@ -79,11 +78,12 @@ module TicketNotificationService
             str = ""
             @tickets.each do |t|
                 str << '<tr>'\
-                 "<th> #{t.flight_company} </th>"\
                  "<th> #{t.price} </th>"\
                  "<th> #{t.flight_date} </th>"\
                  '</tr>'\
             end
+            debugger
+            return str
         end
     end
 end
