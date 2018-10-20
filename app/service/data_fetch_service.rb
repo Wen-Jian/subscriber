@@ -10,7 +10,7 @@ module DataFetchService
             @period = (365 * 1.5).round
             options = Selenium::WebDriver::Chrome::Options.new
             options.add_argument('--headless')
-            @driver = Selenium::WebDriver.for :chrome#, options: options
+            @driver = Selenium::WebDriver.for :chrome, options: options
             
             # set window size using Dimension struct
             @driver.manage.window.resize_to(1200, 768)
