@@ -120,7 +120,7 @@ module DataFetchService
                     FlightTicket.create(
                         flight_company: flight_company,
                         price: price,
-                        destination: "Tokyo",
+                        destination: "London",
                         flight_date: date      
                     )
                 end
