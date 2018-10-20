@@ -1,7 +1,7 @@
 module TicketNotificationService
     class TicketNotificationService
         def self.price_check
-            @tickets = FlightTicket.where("price < 3000").where(destination: 'London').order(flight_date: :asc)
+            @tickets = FlightTicket.where("price < 10000").where(destination: 'London').order(flight_date: :asc)
             if @tickets.present?
                 date_from = @tickets.first.flight_date
                 date_end = @tickets.first.flight_date
