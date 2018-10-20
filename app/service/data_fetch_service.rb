@@ -108,7 +108,7 @@ module DataFetchService
                     if ticket.price > lowest_price
                         ticket.update_attributes(
                             flight_company: flight_company,
-                            price: 3000
+                            price: lowest_price
                         )
                         creatable = false
                     end
