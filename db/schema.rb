@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_19_124724) do
+ActiveRecord::Schema.define(version: 2018_10_20_072200) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 2018_10_19_124724) do
     t.boolean "revoke", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "notify_price"
   end
 
   create_table "flight_tickets", force: :cascade do |t|
