@@ -7,7 +7,7 @@ module DataFetchService
 
         def self.execute
             count = 0
-            @period = 180
+            @period = (365*1.5).round
             options = Selenium::WebDriver::Chrome::Options.new
             options.add_argument('--headless')
             driver = Selenium::WebDriver.for :chrome, options: options

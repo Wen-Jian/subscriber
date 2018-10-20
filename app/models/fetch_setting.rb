@@ -1,0 +1,2 @@
+class FetchSetting < ApplicationRecord
+end
