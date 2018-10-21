@@ -82,7 +82,6 @@ module TicketNotificationService
                  "<th> #{t.flight_date} </th>"\
                  '</tr>'\
             end
-            debugger
             return str
         end
     end

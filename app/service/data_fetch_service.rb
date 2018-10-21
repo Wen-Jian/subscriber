@@ -68,7 +68,7 @@ module DataFetchService
                         sleep(2)
                     end
                     # find the information of company
-                    debugger
+                    
                     flight_company = @driver.find_elements(:xpath, '//*[@id="app"]/div/div[3]/div/div[2]/div/div[4]/div[1]/div[1]/div[1]/div[2]/div[1]/span/span')[0].present? ? 
                         @driver.find_elements(:xpath, '//*[@id="app"]/div/div[3]/div/div[2]/div/div[4]/div[1]/div[1]/div[1]/div[2]/div[1]/span/span')[0].text.encode('UTF-8') : 
                         @driver.find_elements(:xpath, '//*[@id="app"]/div/div[3]/div/div[2]/div/div[5]/div[1]/div[1]/div[1]/div[2]/div[1]/span/span')[0].text.encode('UTF-8')
