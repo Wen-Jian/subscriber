@@ -119,7 +119,7 @@ module DataFetchService
                 if creatable
                     FlightTicket.create(
                         flight_company: flight_company,
-                        price: price,
+                        price: lowest_price,
                         destination: "London",
                         flight_date: date      
                     )
