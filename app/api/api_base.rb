@@ -8,5 +8,4 @@ module API
         end
         mount Api::V1::SubscriberApi::ApiV1
     end
-    
 end

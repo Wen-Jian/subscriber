@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_25_130814) do
+ActiveRecord::Schema.define(version: 2018_10_25_133234) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(version: 2018_10_25_130814) do
     t.integer "notify_price"
     t.date "start_date"
     t.date "end_date"
+    t.integer "notified_price"
   end
 
   create_table "flight_tickets", force: :cascade do |t|
