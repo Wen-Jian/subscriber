@@ -10,7 +10,7 @@ module Api::V1::SubscriberApi
                         destination: f.destination,
                         start_date: f.start_date,
                         end_date: f.end_date,
-                        notified_price: f.notified_price
+                        notify_price: f.notify_price
                     }
                 end
                 response
@@ -30,13 +30,13 @@ module Api::V1::SubscriberApi
                 notified_price = params[:notified_price]
                 fetch_settings = FetchSetting.where(revoke: false, destination: destination).first
                 if fetch_settings.present?
-                    fetch_settings.update_attributes(start_date: start_date, end_date: end_date, notified_price: notified_price)
+                    fetch_settings.update_attributes(start_date: start_date, end_date: end_date, notify_price: notified_price)
                 else
                     fetch_settings = FetchSetting.create!(
                         destination: destination,
                         start_date: start_date,
                         end_date: end_date,
-                        notified_price: notified_price,
+                        notify_price: notified_price,
                         revoke: false
                         )
                 end
