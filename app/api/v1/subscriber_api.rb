@@ -45,7 +45,6 @@ module Api::V1::SubscriberApi
                     end
                     {destination: fetch_settings.destination, start_date: start_date, end_date: end_date, notified_price: notified_price}
                 rescue => exception
-                    debugger
                     if exception.message =~ /.*can not be blank/
                         exception
                     else
