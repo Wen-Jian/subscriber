@@ -1,5 +1,6 @@
 module Api::V1::SubscriberApi
     include API
+    include Api::Validator::ParamsValidator
     class ApiV1 < ApiBase
         resource :subscriber do
             get "/" do
@@ -23,7 +24,8 @@ module Api::V1::SubscriberApi
                 requires :notified_price, type: Integer
             end
             post "/" do
-                
+                validator = ParamsValidator.new(params)
+                validator.valid
                 destination = params[:destination]
                 start_date = params[:start_date]
                 end_date = params[:end_date]
