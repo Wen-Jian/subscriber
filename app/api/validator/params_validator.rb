@@ -4,7 +4,7 @@ module Api::Validator::ParamsValidator
             @params = params
         end
         def valid
-            @params.each do |key val|
+            @params.each do |key, val|
                 if val.blank?
                     raise "#{key} can not be blank"
                 end
