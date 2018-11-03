@@ -24,25 +24,34 @@ module Api::V1::SubscriberApi
                 requires :notified_price, type: Integer
             end
             post "/" do
-                validator = ParamsValidator.new(params)
-                validator.valid
-                destination = params[:destination]
-                start_date = params[:start_date]
-                end_date = params[:end_date]
-                notified_price = params[:notified_price]
-                fetch_settings = FetchSetting.where(revoke: false, destination: destination).first
-                if fetch_settings.present?
-                    fetch_settings.update_attributes(start_date: start_date, end_date: end_date, notify_price: notified_price)
-                else
-                    fetch_settings = FetchSetting.create!(
-                        destination: destination,
-                        start_date: start_date,
-                        end_date: end_date,
-                        notify_price: notified_price,
-                        revoke: false
-                        )
+                begin
+                    validator = Api::Validator::ParamsValidator::ParamsValidator.new(params)
+                    params = validator.valid
+                    destination = params[:destination]
+                    start_date = params[:start_date]
+                    end_date = params[:end_date]
+                    notified_price = params[:notified_price]
+                    fetch_settings = FetchSetting.where(revoke: false, destination: destination).first
+                    if fetch_settings.present?
+                        fetch_settings.update_attributes(start_date: start_date, end_date: end_date, notify_price: notified_price)
+                    else
+                        fetch_settings = FetchSetting.create!(
+                            destination: destination,
+                            start_date: start_date,
+                            end_date: end_date,
+                            notify_price: notified_price,
+                            revoke: false
+                            )
+                    end
+                    {destination: fetch_settings.destination, start_date: start_date, end_date: end_date, notified_price: notified_price}
+                rescue => exception
+                    debugger
+                    if exception.message =~ /.*can not be blank/
+                        exception
+                    else
+                        raise exception
+                    end
                 end
-                {destination: fetch_settings.destination, start_date: start_date, end_date: end_date, notified_price: notified_price}
             end
 
             delete "/:destination" do
