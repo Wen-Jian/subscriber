@@ -2,19 +2,17 @@ module TicketNotificationService
     class TicketNotificationService
         def self.price_check
             settings = FetchSetting.where(revoke: false)
-            unless settings.blank?
-                settings.each do |s|
-                    @tickets = FlightTicket.where("price < ?", s.notify_price).where(destination: s.destination).order(flight_date: :asc)
-                    if @tickets.present?
-                        date_from = @tickets.first.flight_date
-                        date_end = @tickets.first.flight_date
-                        @tickets.each do |t|
-                            if t.flight_date < date_from
-                                date_from = t.flight_date
-                            end
-                            if t.flight_date > date_end
-                                date_end = t.flight_date
-                            end
+            settings.each do |s|
+                @tickets = FlightTicket.where("price < ?", s.notify_price).where(destination: s.destination).order(flight_date: :asc)
+                if @tickets.present?
+                    date_from = @tickets.first.flight_date
+                    date_end = @tickets.first.flight_date
+                    @tickets.each do |t|
+                        if t.flight_date < date_from
+                            date_from = t.flight_date
+                        end
+                        if t.flight_date > date_end
+                            date_end = t.flight_date
                         end
                     end
                     sender = "yichi0707@gmail.com"
