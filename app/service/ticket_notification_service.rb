@@ -15,8 +15,8 @@ module TicketNotificationService
                             date_end = t.flight_date
                         end
                     end
-                    sender = "yichi0707@gmail.com"
-                    recipient = "genning7@gmail.com"
+                    sender = "genning7@gmail.com"
+                    recipient = "yichi0707@gmail.com"
                     awsregion = "us-west-2"
                     subject = "TPE-> #{s.destination}便宜機票"
                     table_content = create_table_content
