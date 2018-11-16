@@ -8,6 +8,7 @@ module Api::V1::SubscriberApi
                 response = []
                 fetch_settings.each do |f|
                     response << {
+                        id: f.id
                         destination: f.destination,
                         start_date: f.start_date,
                         end_date: f.end_date,
@@ -34,7 +35,7 @@ module Api::V1::SubscriberApi
                     end_date = params[:end_date]
                     notified_price = params[:notified_price]
                     flight_type = params[:flight_type]
-                    fetch_settings = FetchSetting.where(revoke: false, destination: destination).first
+                    fetch_settings = FetchSetting.where(revoke: false, destination: destination, flight_type: flight_type).last
                     if fetch_settings.present?
                         fetch_settings.update_attributes(start_date: start_date, end_date: end_date, notify_price: notified_price)
                     else
@@ -57,8 +58,8 @@ module Api::V1::SubscriberApi
                 end
             end
 
-            delete "/:destination" do
-                setting = FetchSetting.find_by(destination: params[:destination], revoke: false)
+            delete "/:id" do
+                setting = FetchSetting.find(params[:id])
                 setting.update_attribute(:revoke, true)
             end
         end
