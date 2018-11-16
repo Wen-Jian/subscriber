@@ -1,5 +1,6 @@
 module DataFetchService
     include Selenium
+    include ConstantDefinition
     class DataFetchService
         # def initialize(period)
         #     @period = period
@@ -23,7 +24,7 @@ module DataFetchService
                     date += count
                     url = "https://flights.wingontravel.com/tickets-oneway-tpe-#{s.destination}/?outbounddate=#{date.day}%2F#{date.month}%2F#{date.year}&adults=1&children=0&direct=false&cabintype=tourist&dport=&aport=&airline=&searchbox=t&curr=TWD"
                     @driver.navigate.to url
-
+                    flight_type = TRANSFER_FLIGHT
                     # pause for 20 seconds to avoid being detected as a robot
                     # sleep(3)
 
@@ -64,6 +65,7 @@ module DataFetchService
                         element = @driver.find_elements(:xpath, '//*[@id="app"]/div/div[3]/div/div[1]/div/div[2]/div[2]/div/div[1]/div[1]/label/span[2]')[0]
                         if element.present? && element.try(:text) == "直飛"
                             element.click
+                            flight_type = DIRECT_FLIGT
                             sleep(2)
                         end
                         # find the information of company
@@ -107,7 +109,8 @@ module DataFetchService
                         if ticket.price > lowest_price
                             ticket.update_attributes(
                                 flight_company: flight_company,
-                                price: lowest_price
+                                price: lowest_price,
+                                flight_type: flight_type
                             )
                             creatable = false
                         end
@@ -120,6 +123,7 @@ module DataFetchService
                             flight_company: flight_company,
                             price: lowest_price,
                             destination: s.destination,
+                            flight_type: flight_type,
                             flight_date: date      
                         )
                     end
