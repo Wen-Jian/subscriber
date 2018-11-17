@@ -40,7 +40,12 @@ module Api::V1::SubscriberApi
                     ticket_type = params[:ticket_type]
                     fetch_settings = FetchSetting.where(revoke: false, destination: destination, flight_type: flight_type).last
                     if fetch_settings.present?
-                        fetch_settings.update_attributes(start_date: start_date, end_date: end_date, notify_price: notified_price)
+                        fetch_settings.update_attributes(
+                            start_date: start_date, 
+                            end_date: end_date,
+                            notify_price: notified_price,
+                            flight_type: flight_type
+                            )
                     else
                         fetch_settings = FetchSetting.create!(
                             destination: destination,
