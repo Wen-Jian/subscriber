@@ -119,7 +119,7 @@ module DataFetchService
                     end
                 end
 
-                ticket = FlightTicket.find_by(flight_date: date, destination: setting.destination)
+                ticket = FlightTicket.find_by(flight_date: date, destination: destination, depart: depart)
                 creatable = true
                 if ticket.present?
                     if ticket.price > lowest_price
@@ -138,7 +138,8 @@ module DataFetchService
                     FlightTicket.create(
                         flight_company: flight_company,
                         price: lowest_price,
-                        destination: setting.destination,
+                        destination: destination,
+                        depart: depart
                         flight_type: flight_type,
                         flight_date: date      
                     )
