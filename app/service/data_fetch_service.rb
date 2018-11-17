@@ -8,14 +8,17 @@ module DataFetchService
 
         def self.execute
             settings = FetchSetting.where(revoke: false)
+            destination = ""
             settings.each do |s|
-                if s.ticket_type == ROUND_TRIP_TICKET
-                    fetch(s, s.depart, s.destination)
-                    fetch(s, s.destination, s.depart)
-                else
-                    fetch(s, s.depart, s.destination)
+                if destination != s.destination
+                    if s.ticket_type == ROUND_TRIP_TICKET
+                        fetch(s, s.depart, s.destination)
+                        fetch(s, s.destination, s.depart)
+                    else
+                        fetch(s, s.depart, s.destination)
+                    end
                 end
-                
+                destination = s.destination
             end
             
             @period = (365 * 1.5).round
