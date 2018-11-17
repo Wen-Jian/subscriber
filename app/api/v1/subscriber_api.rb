@@ -8,7 +8,7 @@ module Api::V1::SubscriberApi
                 response = []
                 fetch_settings.each do |f|
                     response << {
-                        id: f.id
+                        id: f.id,
                         destination: f.destination,
                         start_date: f.start_date,
                         end_date: f.end_date,
