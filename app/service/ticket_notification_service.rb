@@ -16,34 +16,34 @@ module TicketNotificationService
                 ses = Aws::SES::Client.new(region: awsregion)
             
                 # Try to send the email.
-                # begin
-                #     # Provide the contents of the email.
-                #     resp = ses.send_email({
-                #                             destination: {
-                #                             to_addresses: [
-                #                                             recipient,
-                #                                             ],
-                #                             },
-                #                             message: {
-                #                             body: {
-                #                                 html: {
-                #                                 charset: encoding,
-                #                                 data: htmlbody,
-                #                                 }
-                #                             },
-                #                             subject: {
-                #                                 charset: encoding,
-                #                                 data: subject,
-                #                             },
-                #                             },
-                #                             source: sender
-                #                         })
-                #     puts "Email sent!"
+                begin
+                    # Provide the contents of the email.
+                    resp = ses.send_email({
+                                            destination: {
+                                            to_addresses: [
+                                                            recipient,
+                                                            ],
+                                            },
+                                            message: {
+                                            body: {
+                                                html: {
+                                                charset: encoding,
+                                                data: htmlbody,
+                                                }
+                                            },
+                                            subject: {
+                                                charset: encoding,
+                                                data: subject,
+                                            },
+                                            },
+                                            source: sender
+                                        })
+                    puts "Email sent!"
                 
-                # # If something goes wrong, display an error message.
-                # rescue Aws::SES::Errors::ServiceError => error
-                #     puts "Email not sent. Error message: #{error}"
-                # end
+                # If something goes wrong, display an error message.
+                rescue Aws::SES::Errors::ServiceError => error
+                    puts "Email not sent. Error message: #{error}"
+                end
             end
         end
         
