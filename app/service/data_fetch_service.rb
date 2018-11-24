@@ -139,7 +139,7 @@ module DataFetchService
                         flight_company: flight_company,
                         price: lowest_price,
                         destination: destination,
-                        depart: depart
+                        depart: depart,
                         flight_type: flight_type,
                         flight_date: date      
                     )
