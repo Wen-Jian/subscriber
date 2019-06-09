@@ -52,7 +52,8 @@ module TicketNotificationService
             str << '<tr>'\
                  "<th> #{tickets_hash[:ticket_price]} </th>"\
                  "<th> #{tickets_hash[:depart_date]} </th>"\
-                 "<th>#{tickets_hash[:return_date]}</th>"
+                 "<th>#{tickets_hash[:return_date]}</th>"\
+                 "<th>#{tickets_hash[:url]}</th>"
                  '</tr>'
             return str
         end
@@ -76,7 +77,7 @@ module TicketNotificationService
                    if t.flight_date > @date_end
                        @date_end = t.flight_date
                    end
-                   tickets_hash = {depart_date: t.flight_date, ticket_price: t.price}
+                   tickets_hash = {depart_date: t.flight_date, ticket_price: t.price, url: t.url}
                    table_content << create_table_content(tickets_hash)
                end
            
