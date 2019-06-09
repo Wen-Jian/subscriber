@@ -5,7 +5,7 @@ module TicketNotificationService
             settings = FetchSetting.where(revoke: false)
             htmlbody = ""
             settings.each do |setting|
-                htmlbody << (setting.ticket_type == ONE_WAY_TICKET ? one_way_ticket(setting) : round_trip_tickets(setting)) 
+                htmlbody << (setting.ticket_type == ONE_WAY_TICKET ? one_way_ticket(setting) : round_trip_tickets(setting))
             end
             if htmlbody.present?
                 sender = "yichi0707@gmail.com"
@@ -60,8 +60,7 @@ module TicketNotificationService
         def self.one_way_ticket(setting)
             htmlbody = ""
             table_content = ""
-            @tickets = FlightTicket.where("price < ?", setting.notify_price).where(destination: setting.destination,
-                flight_type: setting.flight_type).order(flight_date: :asc).where("flight_date > ?", Date.today)
+            @tickets = FlightTicket.where("price < ?", setting.notify_price).where(destination: setting.destination, flight_type: setting.flight_type).order(flight_date: :asc).where("flight_date > ?", Date.today)
            if @tickets.present?
                if setting.flight_type == DIRECT_FLIGT
                    @flight_type = '直飛'
@@ -131,7 +130,7 @@ module TicketNotificationService
                         desired_price = setting.notify_price - t.price
                         FlightTicket.where("price < ?", desired_price).where(
                             depart: setting.destination, 
-                            destination: t.depart,
+                            destination: t.depart.present? ? t.depart : 'tpe',
                             flight_type: setting.flight_type,
                             flight_date: t.flight_date + i
                             ).order(flight_date: :asc).each do |t|

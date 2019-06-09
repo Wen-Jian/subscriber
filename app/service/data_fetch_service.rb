@@ -27,18 +27,20 @@ module DataFetchService
         def self.fetch(setting, depart, destination)
             count = 0
             options = Selenium::WebDriver::Chrome::Options.new
-            options.add_argument('--headless')
+            # options.add_argument('--headless')
             @driver = Selenium::WebDriver.for :chrome, options: options
             # set window size using Dimension struct
             @driver.manage.window.resize_to(1200, 768)
-            date = setting.start_date > Date.today ? setting.start_date : Date.today
+            date = setting.start_date > Date.today ? setting.start_date : Date.today + 1.day
             while date < setting.end_date
                 # if count % 20 == 1 && count > 1
                 #     driver.close
                 #     driver = Selenium::WebDriver.for :chrome
                 # end
                 date += count
-                url = "https://flights.wingontravel.com/tickets-oneway-#{depart}-#{destination}/?outbounddate=#{date.day}%2F#{date.month}%2F#{date.year}&adults=1&children=0&direct=false&cabintype=tourist&dport=&aport=&airline=&searchbox=t&curr=TWD"
+                url = "https://flights.wingontravel.com/tickets-oneway-#{depart}-#{destination}/?outbounddate=#{date.day}%2F#{format('%02d', date.month)}%2F#{date.year}&adults=1&children=0&direct=false&cabintype=tourist&dport=&aport=&airline=&searchbox=t&curr=TWD"
+                    # "https://flights.wingontravel.com/tickets-oneway-tpe-lon/?outbounddate=09%2F06%2F2019&adults=1&children=0&direct=false&cabintype=Tourist&dport=&aport=&airline=&searchbox=t"
+                    # "https://flights.wingontravel.com/tickets-oneway-tpe-lon/?outbounddate=10%2F6%2F2019&adults=1&children=0&direct=false&cabintype=tourist&dport=&aport=&airline=&searchbox=t&curr=TWD"
                 @driver.navigate.to url
                 flight_type = TRANSFER_FLIGHT
                 # pause for 20 seconds to avoid being detected as a robot
@@ -93,6 +95,15 @@ module DataFetchService
                     # find flight information
                     price_context = (@driver.find_elements(:xpath, '//*[@id="app"]/div/div[3]/div/div[2]/div/div[4]/div[1]')[0].text)
                     prices = price_context.scan(/TWD(\d*,\d*)/)
+                    unless prices.present?
+                        price_context = (@driver.find_elements(:xpath, '//*[@id="app"]/div/div[3]/div/div[2]/div/div[5]/div[1]/div[2]/div')[0].text)
+                                                                        
+                        prices = price_context.scan(/TWD(\d*,\d*)/)
+                    end
+                    unless prices.present?
+                        price_context = (@driver.find_elements(:xpath, '//*[@id="app"]/div/div[3]/div/div[2]/div[1]/div[5]/div[1]/div[2]/div')[0].text)
+                        prices = price_context.scan(/TWD(\d*,\d*)/)
+                    end
                     
                 elsif content_type_2.present?
                     # screening for the flights without transfer
@@ -122,14 +133,13 @@ module DataFetchService
                 ticket = FlightTicket.find_by(flight_date: date, destination: destination, depart: depart)
                 creatable = true
                 if ticket.present?
-                    if ticket.price > lowest_price
-                        ticket.update_attributes(
-                            flight_company: flight_company,
-                            price: lowest_price,
-                            flight_type: flight_type
-                        )
-                        creatable = false
-                    end
+                    ticket.update_attributes(
+                        flight_company: flight_company,
+                        price: lowest_price,
+                        flight_type: flight_type,
+                        updated_at: DateTime.now
+                    )
+                    creatable = false
                 elsif prices.nil?
                     creatable = false
                 end
@@ -177,6 +187,12 @@ module DataFetchService
             when "十二月" 
                 return 12
             end
+        end
+
+        def dump_from_heroku
+            `heroku pg:backups:capture`
+            `heroku pg:backups:download`
+            `pg_restore --verbose --clean --no-acl --no-owner -h localhost -U wen -d crawler_develop latest.dump`
         end
     end
 end
