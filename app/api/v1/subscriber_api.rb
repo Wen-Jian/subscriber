@@ -44,7 +44,8 @@ module Api::V1::SubscriberApi
                             start_date: start_date, 
                             end_date: end_date,
                             notify_price: notified_price,
-                            flight_type: flight_type
+                            flight_type: flight_type,
+                            ticket_type: ticket_type,
                             )
                     else
                         fetch_settings = FetchSetting.create!(
