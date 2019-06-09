@@ -33,18 +33,12 @@ module DataFetchService
             @driver.manage.window.resize_to(1200, 768)
             date = setting.start_date > Date.today ? setting.start_date : Date.today + 1.day
             while date < setting.end_date
-                # if count % 20 == 1 && count > 1
-                #     driver.close
-                #     driver = Selenium::WebDriver.for :chrome
-                # end
                 date += count
                 url = "https://flights.wingontravel.com/tickets-oneway-#{depart}-#{destination}/?outbounddate=#{date.day}%2F#{format('%02d', date.month)}%2F#{date.year}&adults=1&children=0&direct=false&cabintype=tourist&dport=&aport=&airline=&searchbox=t&curr=TWD"
                     # "https://flights.wingontravel.com/tickets-oneway-tpe-lon/?outbounddate=09%2F06%2F2019&adults=1&children=0&direct=false&cabintype=Tourist&dport=&aport=&airline=&searchbox=t"
                     # "https://flights.wingontravel.com/tickets-oneway-tpe-lon/?outbounddate=10%2F6%2F2019&adults=1&children=0&direct=false&cabintype=tourist&dport=&aport=&airline=&searchbox=t&curr=TWD"
                 @driver.navigate.to url
                 flight_type = TRANSFER_FLIGHT
-                # pause for 20 seconds to avoid being detected as a robot
-                # sleep(3)
 
                 # set window size using Dimension struct
                 @driver.manage.window.resize_to(1200, 768)

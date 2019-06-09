@@ -2,7 +2,7 @@ module Api::V1::SubscriberApi
     include API
     include Api::Validator::ParamsValidator
     class ApiV1 < ApiBase
-        resource :subscriber do
+        resource :subscribers do
             get "/" do
                 fetch_settings = FetchSetting.where revoke: false
                 response = []
