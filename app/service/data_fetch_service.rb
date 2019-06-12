@@ -12,10 +12,10 @@ module DataFetchService
             settings.each do |s|
                 if destination != s.destination
                     if s.ticket_type == ROUND_TRIP_TICKET
-                        fetch(s, s.depart, s.destination)
-                        fetch(s, s.destination, s.depart)
+                        fetch(s, 'tpe', s.destination)
+                        fetch(s, s.destination, 'tpe')
                     else
-                        fetch(s, s.depart, s.destination)
+                        fetch(s, 'tpe', s.destination)
                     end
                 end
                 destination = s.destination
@@ -27,7 +27,7 @@ module DataFetchService
         def self.fetch(setting, depart, destination)
             count = 0
             options = Selenium::WebDriver::Chrome::Options.new
-            options.add_argument('--headless')
+            # options.add_argument('--headless')
             @driver = Selenium::WebDriver.for :chrome, options: options
             # set window size using Dimension struct
             @driver.manage.window.resize_to(1200, 768)
@@ -183,9 +183,9 @@ module DataFetchService
             end
         end
 
-        def dump_from_heroku
-            `heroku pg:backups:capture`
-            `heroku pg:backups:download`
+        def self.dump_from_heroku
+            `heroku pg:backups:capture -a subscriber-api`
+            `heroku pg:backups:download -a subscriber-api`
             `pg_restore --verbose --clean --no-acl --no-owner -h localhost -U wen -d crawler_develop latest.dump`
         end
     end
