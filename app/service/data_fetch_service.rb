@@ -27,7 +27,7 @@ module DataFetchService
         def self.fetch(setting, depart, destination)
             count = 0
             options = Selenium::WebDriver::Chrome::Options.new
-            # options.add_argument('--headless')
+            options.add_argument('--headless')
             @driver = Selenium::WebDriver.for :chrome, options: options
             # set window size using Dimension struct
             @driver.manage.window.resize_to(1200, 768)
