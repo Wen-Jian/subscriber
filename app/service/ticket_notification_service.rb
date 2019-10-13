@@ -5,7 +5,6 @@ module TicketNotificationService
             settings = FetchSetting.where(revoke: false)
             htmlbody = ""
             settings.each do |setting|
-                debugger
                 htmlbody << (setting.ticket_type == ONE_WAY_TICKET ? one_way_ticket(setting) : round_trip_tickets(setting))
             end
             if htmlbody.present?
